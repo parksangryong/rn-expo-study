@@ -11,7 +11,7 @@ const dummyData = [
     userId: 1,
     title: "더미 제목입니다",
     description: "더미 내용입니다",
-    createdAt: "2023-10-27T10:00:00Z",
+    createdAt: "2023-10-27",
     author: {
       id: 1,
       nickname: "더미 닉네임",
@@ -29,11 +29,11 @@ const dummyData = [
     userId: 1,
     title: "더미 제목입니다",
     description: "더미 내용입니다",
-    createdAt: "2023-10-27T10:00:00Z",
+    createdAt: "2023-10-27",
     author: {
       id: 1,
       nickname: "더미 닉네임",
-      imageUri: "https://picsum.photos/200/300",
+      imageUri: "",
     },
     imageUris: [],
     likes: [{ userId: 1 }],
@@ -47,7 +47,7 @@ const dummyData = [
     userId: 1,
     title: "더미 제목입니다",
     description: "더미 내용입니다",
-    createdAt: "2023-10-27T10:00:00Z",
+    createdAt: "2023-10-27",
     author: {
       id: 1,
       nickname: "더미 닉네임",
