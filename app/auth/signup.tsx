@@ -14,7 +14,7 @@ const signup = () => {
           placeholder="비밀번호를 입력해주세요."
         />
       </View>
-      <FixedButtonCTA label="회원가입 하기" onPress={() => {}} />
+      <FixedButtonCTA label="회원가입하기" onPress={() => {}} />
     </>
   );
 };
