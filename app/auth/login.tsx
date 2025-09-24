@@ -1,37 +1,38 @@
+import EmailInput from "@/components/EmailInput";
 import FixedButtonCTA from "@/components/FixedButtonCTA";
-import InputField from "@/components/InputField";
-import React, { useState } from "react";
+import PasswordInput from "@/components/PasswordInput";
+import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 const login = () => {
-  const [loginValues, setLoginValues] = useState({
-    email: "",
-    password: "",
+  const loginForm = useForm<FormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
+  const onSubmit = (formValues: FormValues) => {
+    console.log(formValues);
+  };
+
   return (
-    <>
+    <FormProvider {...loginForm}>
       <View style={styles.container}>
-        <InputField
-          label="이메일"
-          placeholder="이메일을 입력해주세요."
-          value={loginValues.email}
-          onChangeText={(text) =>
-            setLoginValues({ ...loginValues, email: text })
-          }
-        />
-        <InputField
-          label="비밀번호"
-          placeholder="비밀번호를 입력해주세요."
-          value={loginValues.password}
-          onChangeText={(text) =>
-            setLoginValues({ ...loginValues, password: text })
-          }
-          secureTextEntry
-        />
+        <EmailInput />
+        <PasswordInput />
       </View>
-      <FixedButtonCTA label="로그인하기" onPress={() => {}} />
-    </>
+      <FixedButtonCTA
+        label="로그인하기"
+        onPress={loginForm.handleSubmit(onSubmit)}
+      />
+    </FormProvider>
   );
 };
 
