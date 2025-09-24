@@ -1,5 +1,5 @@
 import { colors } from "@/constants";
-import React from "react";
+import React, { forwardRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,32 +14,35 @@ interface InputFieldProps extends TextInputProps {
   error?: string;
 }
 
-const InputField = ({
-  label,
-  variant = "filled",
-  error,
-  ...props
-}: InputFieldProps) => {
-  return (
-    <View>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <View
-        style={[
-          styles.inputContainer,
-          styles[variant],
-          Boolean(error) && styles.inputError,
-        ]}
-      >
-        <TextInput
-          placeholderTextColor={colors.GRAY_500}
-          style={styles.input}
-          {...props}
-        />
+const InputField = forwardRef<TextInput, InputFieldProps>(
+  ({ label, variant = "filled", error, ...props }, ref) => {
+    return (
+      <View>
+        {label && <Text style={styles.label}>{label}</Text>}
+        <View
+          style={[
+            styles.inputContainer,
+            styles[variant],
+            Boolean(error) && styles.inputError,
+          ]}
+        >
+          <TextInput
+            ref={ref}
+            placeholderTextColor={colors.GRAY_500}
+            style={styles.input}
+            autoCapitalize="none"
+            spellCheck={false}
+            autoCorrect={false}
+            {...props}
+          />
+        </View>
+        {Boolean(error) && <Text style={styles.error}>{error}</Text>}
       </View>
-      {Boolean(error) && <Text style={styles.error}>{error}</Text>}
-    </View>
-  );
-};
+    );
+  }
+);
+
+InputField.displayName = "InputField";
 
 const styles = StyleSheet.create({
   label: {
