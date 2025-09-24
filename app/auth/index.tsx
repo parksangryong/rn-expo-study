@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function AuthScreen() {
@@ -12,9 +12,12 @@ export default function AuthScreen() {
         />
       </View>
       <View style={styles.formContainer}>
-        <CustomButton label="이메일 로그인" />
-        <Link href="/" style={styles.link} replace>
-          이메일로 가입하기
+        <CustomButton
+          label="이메일 로그인"
+          onPress={() => router.push("/auth/login")}
+        />
+        <Link href="/auth/signup" style={styles.link}>
+          회원가입 가입하기
         </Link>
       </View>
     </View>
