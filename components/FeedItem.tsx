@@ -1,43 +1,43 @@
 import { colors } from "@/constants";
+import useAuth from "@/hooks/queries/useAuth";
+import { Post } from "@/types";
+import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-
-import { Post } from "@/types";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Octicons from "@expo/vector-icons/Octicons";
 import Profile from "./Profile";
 
 interface FeedItemProps {
   post: Post;
 }
 
-const FeedItem = ({ post }: FeedItemProps) => {
-  const isLike = true;
+function FeedItem({ post }: FeedItemProps) {
+  const { auth } = useAuth();
+  const likeUsers = post.likes?.map((like) => Number(like.userId));
+  const isLiked = likeUsers?.includes(Number(auth.id));
 
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Profile
-          nickname={post.author.nickname}
           imageUri={post.author.imageUri}
+          nickname={post.author.nickname}
           createdAt={post.createdAt}
           onPress={() => {}}
         />
         <Text style={styles.title}>{post.title}</Text>
-        <Text style={styles.description} numberOfLines={3}>
+        <Text numberOfLines={3} style={styles.description}>
           {post.description}
         </Text>
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
           <Octicons
-            name={isLike ? "heart-fill" : "heart"}
+            name={isLiked ? "heart-fill" : "heart"}
             size={16}
-            color={isLike ? colors.ORANGE_600 : colors.BLACK}
+            color={isLiked ? colors.ORANGE_600 : colors.BLACK}
           />
-          <Text style={isLike ? styles.menuTextActive : styles.menuText}>
-            {post.likes.length}
+          <Text style={isLiked ? styles.activeMenuText : styles.menuText}>
+            {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
         <Pressable style={styles.menu}>
@@ -46,7 +46,7 @@ const FeedItem = ({ post }: FeedItemProps) => {
             size={16}
             color={colors.BLACK}
           />
-          <Text style={styles.menuText}>{post.commentCount}</Text>
+          <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
@@ -55,7 +55,7 @@ const FeedItem = ({ post }: FeedItemProps) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -64,17 +64,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 16,
   },
-  menuContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    borderTopColor: colors.GRAY_300,
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
   title: {
     fontSize: 18,
-    fontWeight: "600",
     color: colors.BLACK,
+    fontWeight: "600",
     marginVertical: 8,
   },
   description: {
@@ -82,10 +75,17 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     marginBottom: 14,
   },
+  menuContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    borderTopColor: colors.GRAY_300,
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
   menu: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 16,
     width: "33%",
     gap: 4,
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.GRAY_700,
   },
-  menuTextActive: {
-    color: colors.ORANGE_600,
+  activeMenuText: {
     fontWeight: "500",
+    color: colors.ORANGE_600,
   },
 });
 

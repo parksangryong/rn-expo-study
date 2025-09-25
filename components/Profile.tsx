@@ -1,4 +1,6 @@
 import { colors } from "@/constants";
+import { postFormatDate } from "@/utils/dateFormat";
+
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -30,7 +32,7 @@ const Profile = ({
         />
         <View style={styles.nicknameContainer}>
           <Text style={styles.nickname}>{nickname}</Text>
-          <Text style={styles.createdAt}>{createdAt}</Text>
+          <Text style={styles.createdAt}>{postFormatDate(createdAt)}</Text>
         </View>
       </Pressable>
       {options}

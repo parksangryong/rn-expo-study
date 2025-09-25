@@ -1,5 +1,6 @@
 import { getMe, postLogin, postSignup } from "@/api/auth";
 import queryClient from "@/api/queryClient";
+import { queryKeys } from "@/constants";
 import { removeHeader, setHeader } from "@/utils/header";
 import {
   deleteSecureStore,
@@ -27,7 +28,7 @@ function useLogin() {
       setHeader("Authorization", `Bearer ${accessToken}`);
       await saveSecureStore("accessToken", accessToken);
       queryClient.fetchQuery({
-        queryKey: ["auth", "getMe"],
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ME],
       });
       router.replace("/");
     },
