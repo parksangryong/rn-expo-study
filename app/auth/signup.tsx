@@ -5,6 +5,7 @@ import PasswordInput from "@/components/PasswordInput";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
+import useAuth from "@/hooks/queries/useAuth";
 import { FormProvider, useForm } from "react-hook-form";
 
 type FormValues = {
@@ -14,6 +15,7 @@ type FormValues = {
 };
 
 const signup = () => {
+  const { signupMutation } = useAuth();
   const signupForm = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -23,7 +25,11 @@ const signup = () => {
   });
 
   const onSubmit = (formValues: FormValues) => {
-    console.log(formValues);
+    const { email, password } = formValues;
+    signupMutation.mutate({
+      email,
+      password,
+    });
   };
 
   return (
