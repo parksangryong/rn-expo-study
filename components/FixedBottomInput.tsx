@@ -1,14 +1,24 @@
 import { colors } from "@/constants";
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { KeyboardStickyView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputField from "./InputField";
 
-interface FixedButtonCTAProps {}
+interface FixedButtonCTAProps {
+  onSubmit: (text: string) => void;
+}
 
-const FixedButtonCTA = ({}: FixedButtonCTAProps) => {
+const FixedButtonCTA = ({ onSubmit }: FixedButtonCTAProps) => {
   const insets = useSafeAreaInsets();
+  const [text, setText] = useState("");
+
+  const handleSubmit = () => {
+    if (text.length === 0) return;
+
+    onSubmit(text);
+    setText("");
+  };
 
   return (
     <KeyboardStickyView offset={{ closed: 0, opened: insets.bottom - 16 || 0 }}>
@@ -17,8 +27,17 @@ const FixedButtonCTA = ({}: FixedButtonCTAProps) => {
       >
         <InputField
           placeholder="댓글을 남겨보세요."
+          value={text}
+          onChangeText={setText}
           rightChild={
-            <Pressable style={styles.inputButtonContainer}>
+            <Pressable
+              style={[
+                styles.inputButtonContainer,
+                !text && styles.inputButtonDisabled,
+              ]}
+              onPress={handleSubmit}
+              disabled={text.length === 0}
+            >
               <Text style={styles.inputButtonText}>등록</Text>
             </Pressable>
           }
@@ -47,6 +66,9 @@ const styles = StyleSheet.create({
   inputButtonText: {
     color: colors.WHITE,
     fontWeight: "bold",
+  },
+  inputButtonDisabled: {
+    backgroundColor: colors.GRAY_300,
   },
 });
 

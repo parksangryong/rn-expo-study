@@ -14,6 +14,10 @@ export default function PostDetailScreen() {
     return <></>;
   }
 
+  const onSubmit = (text: string) => {
+    console.log(text);
+  };
+
   return (
     <AuthRoute>
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -22,7 +26,7 @@ export default function PostDetailScreen() {
           <Text style={styles.commentCount}>댓글 {post.commentCount}개</Text>
         </View>
       </ScrollView>
-      <FixedBottomInput />
+      <FixedBottomInput onSubmit={onSubmit} />
     </AuthRoute>
   );
 }
