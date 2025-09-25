@@ -29,6 +29,8 @@ const FixedButtonCTA = ({ onSubmit }: FixedButtonCTAProps) => {
           placeholder="댓글을 남겨보세요."
           value={text}
           onChangeText={setText}
+          onSubmitEditing={handleSubmit}
+          returnKeyType="send"
           rightChild={
             <Pressable
               style={[
