@@ -11,12 +11,11 @@ export const formatDate = (date: string) => {
 
 export const postFormatDate = (date: string) => {
   if (dayjs(date).isSame(dayjs(), "day")) {
-    const diff = dayjs().diff(dayjs(date), "hour");
-    if (diff < 1) {
-      const minute = dayjs().diff(dayjs(date), "minute");
-      return `${minute}분 전`;
+    const diff = dayjs().diff(dayjs(date), "minute");
+    if (diff < 60) {
+      return `${diff}분 전`;
     }
-    return `${diff}시간 전`;
+    return `${(diff / 60).toFixed(0)}시간 전`;
   }
 
   return dayjs(date).format("YYYY.MM.DD HH:mm:ss");
