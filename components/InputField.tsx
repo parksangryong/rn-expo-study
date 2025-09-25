@@ -12,10 +12,11 @@ interface InputFieldProps extends TextInputProps {
   label?: string;
   variant?: "filled" | "standard" | "outlined";
   error?: string;
+  rightChild?: React.ReactNode;
 }
 
 const InputField = forwardRef<TextInput, InputFieldProps>(
-  ({ label, variant = "filled", error, ...props }, ref) => {
+  ({ label, variant = "filled", error, rightChild, ...props }, ref) => {
     return (
       <View>
         {label && <Text style={styles.label}>{label}</Text>}
@@ -36,6 +37,7 @@ const InputField = forwardRef<TextInput, InputFieldProps>(
             autoCorrect={false}
             {...props}
           />
+          {rightChild && rightChild}
         </View>
         {Boolean(error) && <Text style={styles.error}>{error}</Text>}
       </View>
