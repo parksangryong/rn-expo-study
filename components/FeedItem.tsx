@@ -1,8 +1,10 @@
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
+import useDeletePost from "@/hooks/queries/useDeletePost";
 import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Profile from "./Profile";
@@ -13,6 +15,8 @@ interface FeedItemProps {
 
 function FeedItem({ post }: FeedItemProps) {
   const { auth } = useAuth();
+  const deletePost = useDeletePost();
+
   const likeUsers = post.likes?.map((like) => Number(like.userId));
   const isLiked = likeUsers?.includes(Number(auth.id));
   const { showActionSheetWithOptions } = useActionSheet();
@@ -32,10 +36,10 @@ function FeedItem({ post }: FeedItemProps) {
       (index) => {
         switch (index) {
           case destructiveButtonIndex:
-            console.log("삭제");
+            deletePost.mutate(post.id);
             break;
           case 1:
-            console.log("수정");
+            router.push(`/post/update/${post.id}`);
             break;
           case cancelButtonIndex:
             console.log("취소");
