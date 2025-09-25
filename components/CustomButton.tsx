@@ -5,7 +5,7 @@ import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
 interface CustomButtonProps extends PressableProps {
   label: string;
   size?: "medium" | "large";
-  variant?: "filled";
+  variant?: "filled" | "standard";
 }
 
 const CustomButton = ({
@@ -50,6 +50,12 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.8,
+  },
+  standard: {
+    backgroundColor: colors.WHITE,
+    color: colors.ORANGE_600,
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });
 
