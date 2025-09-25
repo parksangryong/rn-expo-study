@@ -23,6 +23,7 @@ const InputField = forwardRef<TextInput, InputFieldProps>(
           style={[
             styles.inputContainer,
             styles[variant],
+            props.multiline && styles.multiline,
             Boolean(error) && styles.inputError,
           ]}
         >
@@ -77,6 +78,11 @@ const styles = StyleSheet.create({
   },
   inputError: {
     backgroundColor: colors.RED_100,
+  },
+  multiline: {
+    alignItems: "flex-start",
+    paddingVertical: 10,
+    height: 200,
   },
 });
 
