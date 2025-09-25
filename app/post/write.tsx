@@ -37,7 +37,7 @@ export default function PostWriteScreen() {
           label="게시"
           size="medium"
           variant="standard"
-          onPress={() => onSubmit(postForm.getValues())}
+          onPress={postForm.handleSubmit(onSubmit)}
         />
       ),
     });
