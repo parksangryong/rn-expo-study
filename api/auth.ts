@@ -1,5 +1,6 @@
+import { Profile } from "@/types";
 import { getSecureStore } from "@/utils/secureStore";
-import axios from "axios";
+import apiInstance from "./axios";
 
 type RequestUser = {
   email: string;
@@ -11,18 +12,18 @@ type TokenResponse = {
 };
 
 async function postSignup(body: RequestUser): Promise<void> {
-  const { data } = await axios.post("http://localhost:3030/auth/signup", body);
+  const { data } = await apiInstance.post("/auth/signup", body);
   return data;
 }
 
 async function postLogin(body: RequestUser): Promise<TokenResponse> {
-  const { data } = await axios.post("http://localhost:3030/auth/login", body);
+  const { data } = await apiInstance.post("/auth/login", body);
   return data;
 }
 
-async function getMe() {
+async function getMe(): Promise<Profile> {
   const accessToken = await getSecureStore("accessToken");
-  const { data } = await axios.get("http://localhost:3030/auth/me", {
+  const { data } = await apiInstance.get("/auth/me", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
