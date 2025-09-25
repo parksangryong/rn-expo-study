@@ -1,5 +1,6 @@
 import queryClient from "@/api/queryClient";
 import useAuth from "@/hooks/queries/useAuth";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -26,14 +27,16 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
-        <SafeAreaProvider>
-          <RootNavigator />
-          <Toast />
-        </SafeAreaProvider>
-      </KeyboardProvider>
-    </QueryClientProvider>
+    <ActionSheetProvider>
+      <QueryClientProvider client={queryClient}>
+        <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
+          <SafeAreaProvider>
+            <RootNavigator />
+            <Toast />
+          </SafeAreaProvider>
+        </KeyboardProvider>
+      </QueryClientProvider>
+    </ActionSheetProvider>
   );
 }
 
