@@ -1,19 +1,26 @@
 import CustomButton from "@/components/CustomButton";
 import DescriptionInput from "@/components/DescriptionInput";
+import ImagePreviewList from "@/components/ImagePreviewList";
+import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
+import VoteAttached from "@/components/VoteAttached";
+import VoteModal from "@/components/VoteModal";
 import useGetPost from "@/hooks/queries/useGetPost";
 import useUpdatePost from "@/hooks/queries/useUpdatePost";
-import { ImageUri } from "@/types";
+import { ImageUri, VoteOption } from "@/types";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteOpen: boolean;
+  isVoteAttached: boolean;
+  voteOptions: VoteOption[];
 };
 
 export default function PostUpdateScreen() {
@@ -27,6 +34,15 @@ export default function PostUpdateScreen() {
       title: data?.title,
       description: data?.description,
       imageUris: data?.imageUris,
+      isVoteAttached: data?.hasVote,
+      isVoteOpen: false,
+      voteOptions:
+        data?.votes?.flatMap((vote) =>
+          vote.options.map((option) => ({
+            displayPriority: option.displayPriority,
+            content: option.content,
+          }))
+        ) || [],
     },
   });
 
@@ -55,21 +71,30 @@ export default function PostUpdateScreen() {
   }, []);
 
   return (
-    <KeyboardAwareScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      <FormProvider {...postForm}>
+    <FormProvider {...postForm}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         <TitleInput />
-        <DescriptionInput />
-      </FormProvider>
-    </KeyboardAwareScrollView>
+        <View style={styles.descriptionContainer}>
+          <DescriptionInput />
+          <VoteAttached />
+        </View>
+        <ImagePreviewList imageUris={postForm.watch("imageUris")} />
+      </KeyboardAwareScrollView>
+      <PostWriteFooter />
+      <VoteModal />
+    </FormProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     margin: 16,
+  },
+  descriptionContainer: {
+    paddingVertical: 16,
     gap: 16,
   },
 });
