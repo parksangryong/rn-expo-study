@@ -3,8 +3,9 @@ import DescriptionInput from "@/components/DescriptionInput";
 import ImagePreviewList from "@/components/ImagePreviewList";
 import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
+import VoteModal from "@/components/VoteModal";
 import useCreatePost from "@/hooks/queries/useCreatePost";
-import { ImageUri } from "@/types";
+import { ImageUri, VoteOption } from "@/types";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
@@ -15,6 +16,8 @@ type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteOpen: boolean;
+  voteOptions: VoteOption[];
 };
 
 export default function PostWriteScreen() {
@@ -25,6 +28,8 @@ export default function PostWriteScreen() {
       title: "",
       description: "",
       imageUris: [],
+      isVoteOpen: false,
+      voteOptions: [{ displayPriority: 0, content: "" }],
     },
   });
 
@@ -63,6 +68,7 @@ export default function PostWriteScreen() {
         <ImagePreviewList imageUris={imageUris} />
       </KeyboardAwareScrollView>
       <PostWriteFooter />
+      <VoteModal />
     </FormProvider>
   );
 }
