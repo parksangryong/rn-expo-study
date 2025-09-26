@@ -144,14 +144,16 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
-        <Pressable style={styles.menu} onPress={handlePressFeed}>
-          <MaterialCommunityIcons
-            name="comment-processing-outline"
-            size={16}
-            color={colors.BLACK}
-          />
-          <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
-        </Pressable>
+        {!isDetail && (
+          <Pressable style={styles.menu} onPress={handlePressFeed}>
+            <MaterialCommunityIcons
+              name="comment-processing-outline"
+              size={16}
+              color={colors.BLACK}
+            />
+            <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
+          </Pressable>
+        )}
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
           <Text style={styles.menuText}>{post.viewCount}</Text>
