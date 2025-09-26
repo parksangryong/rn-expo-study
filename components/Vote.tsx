@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import React, { Fragment, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "./CustomButton";
+import VoteOption from "./VoteOption";
 
 interface VoteProps {
   postId: number;
@@ -34,7 +35,14 @@ const Vote = ({ postId, postVotes, voteCount }: VoteProps) => {
         return (
           <Fragment key={vote.id}>
             {vote.options.map((option) => (
-              <Text key={option.id}>{option.content}</Text>
+              <VoteOption
+                key={option.id}
+                option={option}
+                totalCount={voteCount}
+                isVoted={isVoted}
+                isSelected={selectedId === option.id}
+                onSelectOption={() => setSelectedId(Number(option.id))}
+              />
             ))}
             {!isVoted && (
               <CustomButton
