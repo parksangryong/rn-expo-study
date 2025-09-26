@@ -13,7 +13,7 @@ function PostWriteFooter() {
   const { control, setValue } = useFormContext();
   const [imageUris] = useWatch({ control, name: ["imageUris"] });
   const uploadImages = useUploadImages();
-
+  const isVoteAttached = useWatch({ control, name: "isVoteAttached" });
   const addImageUris = (uris: string[]) => {
     if (imageUris.length + uris.length > 5) {
       Alert.alert("이미지 개수 초과", "추가 가능한 이미지는 최대 5개입니다.");
@@ -45,10 +45,15 @@ function PostWriteFooter() {
         <Ionicons name={"camera"} size={20} color={colors.BLACK} />
       </Pressable>
       <Pressable
-        style={styles.footerIcon}
+        style={[styles.footerIcon]}
+        disabled={isVoteAttached}
         onPress={() => setValue("isVoteOpen", true)}
       >
-        <MaterialCommunityIcons name="vote" size={20} color={colors.BLACK} />
+        <MaterialCommunityIcons
+          name="vote"
+          size={20}
+          color={isVoteAttached ? colors.GRAY_300 : colors.BLACK}
+        />
       </Pressable>
     </View>
   );

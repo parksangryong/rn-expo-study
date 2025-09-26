@@ -3,6 +3,7 @@ import DescriptionInput from "@/components/DescriptionInput";
 import ImagePreviewList from "@/components/ImagePreviewList";
 import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
+import VoteAttached from "@/components/VoteAttached";
 import VoteModal from "@/components/VoteModal";
 import useCreatePost from "@/hooks/queries/useCreatePost";
 import { ImageUri, VoteOption } from "@/types";
@@ -17,6 +18,7 @@ type FormValues = {
   description: string;
   imageUris: ImageUri[];
   isVoteOpen: boolean;
+  isVoteAttached: boolean;
   voteOptions: VoteOption[];
 };
 
@@ -29,6 +31,7 @@ export default function PostWriteScreen() {
       description: "",
       imageUris: [],
       isVoteOpen: false,
+      isVoteAttached: false,
       voteOptions: [{ displayPriority: 0, content: "" }],
     },
   });
@@ -64,6 +67,7 @@ export default function PostWriteScreen() {
         <TitleInput />
         <View style={styles.descriptionContainer}>
           <DescriptionInput />
+          <VoteAttached />
         </View>
         <ImagePreviewList imageUris={imageUris} />
       </KeyboardAwareScrollView>
@@ -76,9 +80,9 @@ export default function PostWriteScreen() {
 const styles = StyleSheet.create({
   container: {
     margin: 16,
-    gap: 16,
   },
   descriptionContainer: {
     paddingVertical: 16,
+    gap: 16,
   },
 });
