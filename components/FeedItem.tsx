@@ -9,6 +9,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import ImagePreviewList from "./ImagePreviewList";
 import Profile from "./Profile";
+import Vote from "./Vote";
 
 interface FeedItemProps {
   post: Post;
@@ -94,6 +95,26 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           {post.description}
         </Text>
         <ImagePreviewList imageUris={post.imageUris} />
+        {!isDetail && post.hasVote && (
+          <View style={styles.voteContainer}>
+            <View style={styles.voteTextContainer}>
+              <MaterialCommunityIcons
+                name="vote"
+                size={16}
+                color={colors.ORANGE_600}
+              />
+              <Text style={styles.voteContentText}>투표</Text>
+            </View>
+            <Text style={styles.voteCount}>{post.voteCount}명 참여중...</Text>
+          </View>
+        )}
+        {isDetail && post.hasVote && (
+          <Vote
+            postId={post.id}
+            postVotes={post.votes ?? []}
+            voteCount={post.voteCount}
+          />
+        )}
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
@@ -163,6 +184,33 @@ const styles = StyleSheet.create({
   activeMenuText: {
     fontWeight: "500",
     color: colors.ORANGE_600,
+  },
+  voteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 14,
+    gap: 16,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: colors.ORANGE_600,
+    backgroundColor: colors.ORANGE_100,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  voteTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  voteContentText: {
+    fontSize: 14,
+    color: colors.ORANGE_600,
+    fontWeight: "bold",
+  },
+  voteCount: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.BLACK,
   },
 });
 
