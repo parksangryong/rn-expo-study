@@ -57,6 +57,11 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
   };
 
   const handlePressFeed = () => {
+    if (!auth.id) {
+      router.push(`/auth`);
+      return;
+    }
+
     if (!isDetail) {
       router.push(`/post/${post.id}`);
     }
