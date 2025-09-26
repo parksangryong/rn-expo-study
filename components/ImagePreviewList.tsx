@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/api/axios";
 import { ImageUri } from "@/types";
+import { router } from "expo-router";
 import React from "react";
 import { Image, Pressable, ScrollView, StyleSheet } from "react-native";
 
@@ -8,8 +9,6 @@ interface ImagePreviewListProps {
 }
 
 function ImagePreviewList({ imageUris = [] }: ImagePreviewListProps) {
-  console.log("$$$", imageUris);
-
   return (
     <ScrollView
       horizontal
@@ -20,7 +19,18 @@ function ImagePreviewList({ imageUris = [] }: ImagePreviewListProps) {
         const imageUri = `${BASE_URL}/${uri}`;
 
         return (
-          <Pressable key={uri + index} style={styles.imageContainer}>
+          <Pressable
+            key={uri + index}
+            style={styles.imageContainer}
+            onPress={() => {
+              router.push({
+                pathname: "/image",
+                params: {
+                  uri: imageUri,
+                },
+              });
+            }}
+          >
             <Image style={styles.image} source={{ uri: imageUri }} />
           </Pressable>
         );
@@ -33,7 +43,6 @@ const styles = StyleSheet.create({
   container: {
     gap: 5,
     flexGrow: 1,
-    paddingTop: 10,
   },
   imageContainer: {
     width: 90,

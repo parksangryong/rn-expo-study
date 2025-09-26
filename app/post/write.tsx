@@ -7,8 +7,8 @@ import useCreatePost from "@/hooks/queries/useCreatePost";
 import { ImageUri } from "@/types";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 type FormValues = {
@@ -26,6 +26,11 @@ export default function PostWriteScreen() {
       description: "",
       imageUris: [],
     },
+  });
+
+  const imageUris = useWatch({
+    control: postForm.control,
+    name: "imageUris",
   });
 
   const onSubmit = (formValues: FormValues) => {
@@ -52,8 +57,10 @@ export default function PostWriteScreen() {
         showsVerticalScrollIndicator={false}
       >
         <TitleInput />
-        <DescriptionInput />
-        <ImagePreviewList imageUris={postForm.watch("imageUris")} />
+        <View style={styles.descriptionContainer}>
+          <DescriptionInput />
+        </View>
+        <ImagePreviewList imageUris={imageUris} />
       </KeyboardAwareScrollView>
       <PostWriteFooter />
     </FormProvider>
@@ -64,5 +71,8 @@ const styles = StyleSheet.create({
   container: {
     margin: 16,
     gap: 16,
+  },
+  descriptionContainer: {
+    paddingVertical: 16,
   },
 });
