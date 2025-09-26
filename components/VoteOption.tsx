@@ -18,10 +18,20 @@ const VoteOption = ({
   isSelected,
   onSelectOption,
 }: VoteOptionProps) => {
+  const percent = option.userVotes.length
+    ? Math.floor((option.userVotes.length / totalCount) * 100)
+    : 0;
+
   return (
     <>
       {isVoted ? (
-        <View></View>
+        <View style={styles.votedContainer}>
+          <View style={[styles.percent, { width: `${percent}%` }]} />
+          <Text style={styles.content}>{option.content}</Text>
+          <Text style={styles.percentText}>
+            {percent}% ({option.userVotes.length})
+          </Text>
+        </View>
       ) : (
         <Pressable
           onPress={onSelectOption}
@@ -59,6 +69,29 @@ const styles = StyleSheet.create({
   },
   content: {
     marginLeft: 10,
+  },
+  votedContainer: {
+    height: 44,
+    borderRadius: 8,
+    backgroundColor: colors.ORANGE_200,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    overflow: "hidden",
+  },
+  percent: {
+    position: "absolute",
+    height: 44,
+    backgroundColor: colors.ORANGE_300,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  percentText: {
+    marginRight: 10,
+    fontWeight: "500",
   },
 });
 
