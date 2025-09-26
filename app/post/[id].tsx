@@ -6,24 +6,44 @@ import { colors } from "@/constants";
 import useCreateComment from "@/hooks/queries/useCreateComment";
 import useGetPost from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
-import { useRef } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Fragment, useRef, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function PostDetailScreen() {
   const { id } = useLocalSearchParams();
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const createComment = useCreateComment();
   const scrollViewRef = useRef<ScrollView>(null);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
+  const inputRef = useRef<TextInput>(null);
 
   if (isPending || isError) {
     return <></>;
   }
 
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    inputRef.current?.focus();
+  };
+
+  const handleCancelReply = () => {
+    setParentCommentId(null);
+    inputRef.current?.blur();
+  };
+
   const onSubmit = (text: string) => {
-    createComment.mutate({
+    const commentData = {
       content: text,
       postId: post.id,
-    });
+    };
+
+    if (parentCommentId) {
+      createComment.mutate({ ...commentData, parentCommentId });
+      handleCancelReply();
+      return;
+    }
+
+    createComment.mutate(commentData);
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     }, 500);
@@ -40,11 +60,26 @@ export default function PostDetailScreen() {
           <Text style={styles.commentCount}>댓글 {post.commentCount}개</Text>
         </View>
         {post.comments?.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
+          <Fragment key={comment.id}>
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              parentCommentId={parentCommentId}
+              onReply={() => handleReply(comment.id)}
+              onCancelReply={handleCancelReply}
+            />
+            {comment.replies.map((reply) => (
+              <CommentItem key={reply.id} comment={reply} isReply />
+            ))}
+          </Fragment>
         ))}
         <View style={styles.bottomContainer} />
       </ScrollView>
-      <FixedBottomInput onSubmit={onSubmit} />
+      <FixedBottomInput
+        onSubmit={onSubmit}
+        parentCommentId={parentCommentId}
+        ref={inputRef}
+      />
     </AuthRoute>
   );
 }

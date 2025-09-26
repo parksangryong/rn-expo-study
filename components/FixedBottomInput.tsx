@@ -1,15 +1,21 @@
 import { colors } from "@/constants";
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { KeyboardStickyView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputField from "./InputField";
 
 interface FixedButtonCTAProps {
   onSubmit: (text: string) => void;
+  parentCommentId?: number | null;
+  ref?: React.RefObject<TextInput | null>;
 }
 
-const FixedButtonCTA = ({ onSubmit }: FixedButtonCTAProps) => {
+const FixedButtonCTA = ({
+  onSubmit,
+  parentCommentId,
+  ref,
+}: FixedButtonCTAProps) => {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState("");
 
@@ -26,7 +32,10 @@ const FixedButtonCTA = ({ onSubmit }: FixedButtonCTAProps) => {
         style={[styles.inputContainer, { paddingBottom: insets.bottom || 16 }]}
       >
         <InputField
-          placeholder="댓글을 남겨보세요."
+          placeholder={
+            parentCommentId ? "답글 남기는 중..." : "댓글을 남겨보세요."
+          }
+          ref={ref}
           value={text}
           onChangeText={setText}
           onSubmitEditing={handleSubmit}
