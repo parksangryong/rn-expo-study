@@ -1,5 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import DescriptionInput from "@/components/DescriptionInput";
+import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
 import useCreatePost from "@/hooks/queries/useCreatePost";
 import { ImageUri } from "@/types";
@@ -44,15 +45,16 @@ export default function PostWriteScreen() {
   }, []);
 
   return (
-    <KeyboardAwareScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      <FormProvider {...postForm}>
+    <FormProvider {...postForm}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         <TitleInput />
         <DescriptionInput />
-      </FormProvider>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+      <PostWriteFooter />
+    </FormProvider>
   );
 }
 
