@@ -68,19 +68,6 @@ function useUpdateProfile() {
     mutationFn: editProfile,
     onSuccess: (newProfile) => {
       queryClient.setQueryData([queryKeys.AUTH, queryKeys.GET_ME], newProfile);
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.POST, queryKeys.GET_POSTS],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.POST, queryKeys.GET_POSTS, queryKeys.GET_MY_POSTS],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [
-          queryKeys.POST,
-          queryKeys.GET_POSTS,
-          queryKeys.GET_LIKED_POSTS,
-        ],
-      });
     },
   });
 }
