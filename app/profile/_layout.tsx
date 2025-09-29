@@ -47,7 +47,7 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="avatar"
         options={{
-          title: "아바타 변경",
+          title: "",
           headerShown: true,
           headerTitleAlign: "center",
           headerBackButtonDisplayMode: "minimal",

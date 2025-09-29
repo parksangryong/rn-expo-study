@@ -19,4 +19,10 @@ function getFormDataImages(
   return formData;
 }
 
-export { getFormDataImages };
+function getImageId(id: string) {
+  const filename = id.split("/").pop() ?? "";
+  const [imageId] = filename.split(".");
+  return imageId;
+}
+
+export { getFormDataImages, getImageId };
