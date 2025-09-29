@@ -1,17 +1,22 @@
 import { BASE_URL } from "@/api/axios";
 import AuthRoute from "@/components/AuthRoute";
 import CustomButton from "@/components/CustomButton";
+import LikedFeedList from "@/components/LikedFeedList";
+import MyFeedList from "@/components/MyFeedList";
 import Tab from "@/components/Tab";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import PagerView from "react-native-pager-view";
 
 export default function MyScreen() {
   const { auth } = useAuth();
   const [currentTab, setCurrentTab] = useState(0);
+  const pagerViewRef = useRef<PagerView>(null);
 
   const handleTabPress = (index: number) => {
+    pagerViewRef.current?.setPage(index);
     setCurrentTab(index);
   };
 
@@ -50,6 +55,16 @@ export default function MyScreen() {
           좋아한 게시물
         </Tab>
       </View>
+
+      <PagerView
+        ref={pagerViewRef}
+        style={styles.pagerView}
+        initialPage={0}
+        onPageSelected={(e) => setCurrentTab(e.nativeEvent.position)}
+      >
+        <MyFeedList key="1" />
+        <LikedFeedList key="2" />
+      </PagerView>
     </AuthRoute>
   );
 }
@@ -90,5 +105,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 16,
     right: 16,
+  },
+  pagerView: {
+    flex: 1,
   },
 });
