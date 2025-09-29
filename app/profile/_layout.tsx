@@ -44,6 +44,21 @@ export default function ProfileLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="avatar"
+        options={{
+          title: "아바타 변경",
+          headerShown: true,
+          headerTitleAlign: "center",
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color={colors.BLACK} />
+            </Pressable>
+          ),
+        }}
+      />
     </Stack>
   );
 }

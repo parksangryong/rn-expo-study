@@ -5,6 +5,7 @@ import IntroduceInput from "@/components/IntroduceInput";
 import NickNameInput from "@/components/NickNameInput";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
+import { router } from "expo-router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
@@ -56,6 +57,7 @@ const ProfileUpdateScreen = () => {
             variant="outlined"
             label="아바타 변경"
             style={styles.avatarButton}
+            onPress={() => router.push("/profile/avatar")}
           />
         </View>
         <View style={styles.inputContainer}>
