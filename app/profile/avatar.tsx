@@ -1,15 +1,19 @@
 import AvatarList from "@/components/AvatarList";
 import FixedButtonCTA from "@/components/FixedButtonCTA";
 import Tab from "@/components/Tab";
+import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
 import useGetAvatarItems from "@/hooks/queries/useGetAvatarItems";
 import { getImageId } from "@/utils/images";
-import React, { useRef, useState } from "react";
+import { router, useNavigation } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
+import Toast from "react-native-toast-message";
 
 const AvatarScreen = () => {
-  const { auth } = useAuth();
+  const { auth, updateProfileMutation } = useAuth();
+  const navigation = useNavigation();
   const { hats, faces, tops, bottoms, hands, skins } = useGetAvatarItems();
   const [currentTab, setCurrentTab] = useState(0);
   const [avatarItems, setAvatarItems] = useState({
@@ -30,6 +34,31 @@ const AvatarScreen = () => {
   const handleSelect = (name: string, id: string) => {
     setAvatarItems({ ...avatarItems, [name]: getImageId(id) });
   };
+
+  const handleSave = () => {
+    updateProfileMutation.mutate(
+      {
+        ...avatarItems,
+      },
+      {
+        onSuccess: () => {
+          Toast.show({
+            type: "success",
+            text1: "아바타 변경이 완료되었습니다.",
+          });
+          router.back();
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: colors.ORANGE_200,
+      },
+    });
+  }, [navigation]);
 
   return (
     <>
@@ -91,7 +120,7 @@ const AvatarScreen = () => {
       </View>
       <FixedButtonCTA
         label="저장"
-        onPress={() => {}}
+        onPress={handleSave}
         showBottomBorder={false}
       />
     </>

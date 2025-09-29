@@ -35,6 +35,7 @@ const ProfileUpdateScreen = () => {
             type: "success",
             text1: "프로필 수정이 완료되었습니다.",
           });
+          router.back();
         },
       }
     );

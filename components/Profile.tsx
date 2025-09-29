@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/api/axios";
 import { colors } from "@/constants";
 import { postFormatDate } from "@/utils/dateFormat";
 
@@ -25,7 +26,7 @@ const Profile = ({
         <Image
           source={
             imageUri
-              ? { uri: imageUri }
+              ? { uri: `${BASE_URL}/${imageUri}` }
               : require("@/assets/images/default-avatar.png")
           }
           style={styles.avatar}
