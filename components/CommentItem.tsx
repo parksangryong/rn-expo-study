@@ -4,6 +4,7 @@ import useDeleteComment from "@/hooks/queries/useDeleteComment";
 import { Comment } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import InputField from "./InputField";
 import Profile from "./Profile";
@@ -78,7 +79,11 @@ const CommentItem = ({
           nickname={comment.isDeleted ? "(삭제)" : comment.user.nickname}
           imageUri={comment.isDeleted ? "" : comment.user.imageUri}
           createdAt={comment.createdAt}
-          onPress={() => {}}
+          onPress={() => {
+            if (!comment.isDeleted) {
+              router.push(`/profile/${comment.user.id}`);
+            }
+          }}
           options={
             auth.id === comment.user.id && (
               <Ionicons

@@ -54,6 +54,12 @@ async function createVote({
   return data;
 }
 
+async function getUserPosts(id: number, page = 1): Promise<Post[]> {
+  const { data } = await axiosInstance.get(`/posts/user/${id}?page=${page}`);
+
+  return data;
+}
+
 async function likePost(id: number): Promise<number> {
   const { data } = await axiosInstance.post(`/likes/${id}`);
   return data;
@@ -67,6 +73,7 @@ export {
   getMyPosts,
   getPost,
   getPosts,
+  getUserPosts,
   likePost,
   updatePost,
 };
