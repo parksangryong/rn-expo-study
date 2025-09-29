@@ -1,19 +1,43 @@
 import { BASE_URL } from "@/api/axios";
 import CustomButton from "@/components/CustomButton";
+import FixedButtonCTA from "@/components/FixedButtonCTA";
+import IntroduceInput from "@/components/IntroduceInput";
+import NickNameInput from "@/components/NickNameInput";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
+import Toast from "react-native-toast-message";
+
+type FormValues = {
+  nickname: string;
+  introduce: string;
+};
 
 const ProfileUpdateScreen = () => {
-  const { auth } = useAuth();
-  const profileForm = useForm({
+  const { auth, updateProfileMutation } = useAuth();
+  const profileForm = useForm<FormValues>({
     defaultValues: {
       nickname: auth.nickname,
       introduce: auth.introduce,
     },
   });
+
+  const onSubmit = (formValues: FormValues) => {
+    const { nickname, introduce } = formValues;
+    updateProfileMutation.mutate(
+      { nickname, introduce },
+      {
+        onSuccess: () => {
+          Toast.show({
+            type: "success",
+            text1: "프로필 수정이 완료되었습니다.",
+          });
+        },
+      }
+    );
+  };
 
   return (
     <FormProvider {...profileForm}>
@@ -34,8 +58,16 @@ const ProfileUpdateScreen = () => {
             style={styles.avatarButton}
           />
         </View>
-        <View style={styles.inputContainer}></View>
+        <View style={styles.inputContainer}>
+          <NickNameInput />
+          <IntroduceInput />
+        </View>
       </View>
+
+      <FixedButtonCTA
+        label="프로필 수정"
+        onPress={profileForm.handleSubmit(onSubmit)}
+      />
     </FormProvider>
   );
 };

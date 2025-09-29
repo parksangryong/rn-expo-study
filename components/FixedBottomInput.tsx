@@ -5,17 +5,17 @@ import { KeyboardStickyView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputField from "./InputField";
 
-interface FixedButtonCTAProps {
+interface FixedInputCTAProps {
   onSubmit: (text: string) => void;
   parentCommentId?: number | null;
   ref?: React.RefObject<TextInput | null>;
 }
 
-const FixedButtonCTA = ({
+const FixedInputCTA = ({
   onSubmit,
   parentCommentId,
   ref,
-}: FixedButtonCTAProps) => {
+}: FixedInputCTAProps) => {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState("");
 
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FixedButtonCTA;
+export default FixedInputCTA;
