@@ -1,11 +1,19 @@
 import { BASE_URL } from "@/api/axios";
 import AuthRoute from "@/components/AuthRoute";
+import CustomButton from "@/components/CustomButton";
+import Tab from "@/components/Tab";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
+import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function MyScreen() {
   const { auth } = useAuth();
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const handleTabPress = (index: number) => {
+    setCurrentTab(index);
+  };
 
   return (
     <AuthRoute>
@@ -18,6 +26,13 @@ export default function MyScreen() {
           }
           style={styles.avatar}
         />
+        <CustomButton
+          label="프로필 편집"
+          variant="outlined"
+          size="medium"
+          style={styles.editButton}
+          onPress={() => {}}
+        />
       </View>
 
       <View style={styles.container}>
@@ -25,6 +40,15 @@ export default function MyScreen() {
           <Text style={styles.nickname}>{auth.nickname}</Text>
           <Text style={styles.introduce}>{auth.introduce}</Text>
         </View>
+      </View>
+
+      <View style={styles.tabs}>
+        <Tab isActive={currentTab === 0} onPress={() => handleTabPress(0)}>
+          게시물
+        </Tab>
+        <Tab isActive={currentTab === 1} onPress={() => handleTabPress(1)}>
+          좋아한 게시물
+        </Tab>
       </View>
     </AuthRoute>
   );
@@ -58,5 +82,13 @@ const styles = StyleSheet.create({
   },
   introduce: {
     fontSize: 14,
+  },
+  tabs: {
+    flexDirection: "row",
+  },
+  editButton: {
+    position: "absolute",
+    bottom: 16,
+    right: 16,
   },
 });
