@@ -16,7 +16,9 @@ async function postSignup(body: RequestUser): Promise<void> {
   return data;
 }
 
-async function postLogin(body: RequestUser): Promise<TokenResponse> {
+async function postLogin(
+  body: RequestUser & { expoPushToken: string }
+): Promise<TokenResponse> {
   const { data } = await axiosInstance.post("/auth/signin", body);
   return data;
 }

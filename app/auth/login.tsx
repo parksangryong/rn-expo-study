@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
 import useAuth from "@/hooks/queries/useAuth";
+import usePushNotification from "@/hooks/usePushNotification";
 
 type FormValues = {
   email: string;
@@ -14,6 +15,7 @@ type FormValues = {
 
 const login = () => {
   const { loginMutation } = useAuth();
+  const { expoPushToken, notification } = usePushNotification();
   const loginForm = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -23,9 +25,11 @@ const login = () => {
 
   const onSubmit = (formValues: FormValues) => {
     const { email, password } = formValues;
+    console.log(expoPushToken, notification);
     loginMutation.mutate({
       email,
       password,
+      expoPushToken,
     });
   };
 
