@@ -65,6 +65,16 @@ async function likePost(id: number): Promise<number> {
   return data;
 }
 
+async function getSearchPosts(
+  page: number = 1,
+  query: string
+): Promise<Post[]> {
+  const { data } = await axiosInstance.get(
+    `/posts/search?page=${page}&query=${query}`
+  );
+  return data;
+}
+
 export {
   createPost,
   createVote,
@@ -73,6 +83,7 @@ export {
   getMyPosts,
   getPost,
   getPosts,
+  getSearchPosts,
   getUserPosts,
   likePost,
   updatePost,
