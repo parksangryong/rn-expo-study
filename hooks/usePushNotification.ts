@@ -67,12 +67,20 @@ function usePushNotification() {
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
+        console.log("📨 포그라운드에서 알림 수신:", notification);
+        console.log("📝 제목:", notification.request.content.title);
+        console.log("📝 내용:", notification.request.content.body);
+        console.log("📄 데이터:", notification.request.content.data);
         setNotification(notification);
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        console.log("🔔 푸시 알림 클릭됨:", response);
+        console.log("📱 액션:", response.actionIdentifier);
+        console.log("📄 데이터:", response.notification.request.content.data);
+        console.log("📝 제목:", response.notification.request.content.title);
+        console.log("📝 내용:", response.notification.request.content.body);
       });
 
     return () => {

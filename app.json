@@ -23,7 +23,11 @@
       "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "permissions": ["android.permission.RECORD_AUDIO"]
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "notification": {
+        "icon": "./assets/images/android-icon-foreground.png",
+        "color": "#E6F4FE"
+      }
     },
     "web": {
       "output": "static",
