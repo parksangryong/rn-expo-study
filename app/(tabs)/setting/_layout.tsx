@@ -8,7 +8,7 @@ export default function SettingLayout() {
       screenOptions={{
         headerShown: false,
         contentStyle: {
-          backgroundColor: colors.WHITE,
+          backgroundColor: colors.GRAY_200,
         },
       }}
     >
