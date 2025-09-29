@@ -1,8 +1,10 @@
-import { Link, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 
 import { colors } from "@/constants";
 import Foundation from "@expo/vector-icons/Foundation";
+import { router } from "expo-router";
+import { Pressable, StyleSheet } from "react-native";
 
 export default function AuthLayout() {
   return (
@@ -20,9 +22,12 @@ export default function AuthLayout() {
           headerShown: true,
           headerTitleAlign: "center",
           headerLeft: () => (
-            <Link href="/" replace>
+            <Pressable
+              onPress={() => router.replace("/")}
+              style={styles.headerLeft}
+            >
               <Foundation name="home" size={28} color={colors.BLACK} />
-            </Link>
+            </Pressable>
           ),
         }}
       />
@@ -47,3 +52,11 @@ export default function AuthLayout() {
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  headerLeft: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 8,
+  },
+});
