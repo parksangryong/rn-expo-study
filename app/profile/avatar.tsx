@@ -9,6 +9,7 @@ import useGetAvatarItems from "@/hooks/queries/useGetAvatarItems";
 import { getImageId } from "@/utils/images";
 import { router, useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
 import { SvgUri } from "react-native-svg";
@@ -17,6 +18,7 @@ import Toast from "react-native-toast-message";
 const AvatarScreen = () => {
   const { auth, updateProfileMutation } = useAuth();
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const { hats, faces, tops, bottoms, hands, skins } = useGetAvatarItems();
   const [currentTab, setCurrentTab] = useState(0);
   const [avatarItems, setAvatarItems] = useState({
@@ -135,7 +137,14 @@ const AvatarScreen = () => {
           </View>
         </View>
         <View style={styles.tabContainer}>
-          {["모자", "얼굴", "상의", "하의", "손", "피부"].map((item, index) => (
+          {[
+            t("Hat"),
+            t("Face"),
+            t("Top"),
+            t("Bottom"),
+            t("Hand"),
+            t("Skin"),
+          ].map((item, index) => (
             <Tab
               key={item}
               isActive={currentTab === index}
